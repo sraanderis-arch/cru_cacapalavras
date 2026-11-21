@@ -11,10 +11,7 @@
   <style>
     :root {
       --bg-dark: #09080f;
-      --card-dark: #13111f;
       --border-lilac: rgba(192, 132, 252, 0.25);
-      --neon-lilac: #c084fc;
-      --deep-purple: #7e22ce;
     }
     body {
       background-color: var(--bg-dark);
@@ -75,7 +72,6 @@
 </head>
 <body class="antialiased flex flex-col">
 
-  <!-- Top Navbar -->
   <header class="border-b border-purple-900/40 bg-[#0c0a14]/90 backdrop-blur-md sticky top-0 z-30">
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
@@ -103,21 +99,16 @@
     </div>
   </header>
 
-  <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300">
     <div class="glass-panel border-purple-400/50 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-medium text-purple-100">
-      <span id="toastIcon" class="text-purple-400 text-base">✦</span>
+      <span class="text-purple-400 text-base">✦</span>
       <span id="toastMsg">Mensagem</span>
     </div>
   </div>
 
-  <!-- ==================== PLAYER VIEW ==================== -->
+  <!-- PLAYER VIEW -->
   <main id="playerView" class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    
-    <!-- Left Column: Player Identification, Team & Enigmas -->
     <div class="lg:col-span-5 flex flex-col gap-5">
-      
-      <!-- Player & Team Card -->
       <div class="glass-panel rounded-2xl p-5 space-y-4">
         <div class="flex items-center justify-between">
           <span class="text-xs font-semibold uppercase tracking-wider text-purple-400">Identificação do Participante</span>
@@ -148,7 +139,6 @@
         </div>
       </div>
 
-      <!-- Status Bar -->
       <div class="glass-panel rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-4">
           <div>
@@ -179,7 +169,6 @@
         </div>
       </div>
 
-      <!-- Enigmas List -->
       <div class="glass-panel rounded-2xl p-5 flex-1 flex flex-col">
         <div class="flex items-center justify-between mb-3">
           <div>
@@ -187,14 +176,10 @@
             <p class="text-xs text-purple-300/70">Leia a pergunta, descubra a palavra e arraste na grade</p>
           </div>
         </div>
-
-        <div id="enigmasList" class="space-y-2.5 max-h-[430px] overflow-y-auto pr-1">
-          <!-- Enigmas injected via JS -->
-        </div>
+        <div id="enigmasList" class="space-y-2.5 max-h-[430px] overflow-y-auto pr-1"></div>
       </div>
     </div>
 
-    <!-- Right Column: Word Search Grid -->
     <div class="lg:col-span-7 flex flex-col">
       <div class="glass-panel rounded-2xl p-4 sm:p-6 flex-1 flex flex-col items-center justify-center relative">
         <div class="w-full flex items-center justify-between mb-4">
@@ -205,18 +190,14 @@
         </div>
 
         <div id="gridWrapper" class="w-full flex items-center justify-center overflow-auto py-2">
-          <div id="wordGrid" class="grid gap-1 bg-[#0b0914] p-2.5 rounded-2xl border border-purple-500/25 shadow-inner">
-            <!-- Grid cells injected via JS -->
-          </div>
+          <div id="wordGrid" class="grid gap-1 bg-[#0b0914] p-2.5 rounded-2xl border border-purple-500/25 shadow-inner"></div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- ==================== ADMIN / SUPERVISOR VIEW ==================== -->
+  <!-- ADMIN VIEW -->
   <main id="adminView" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-6">
-    
-    <!-- Admin Sub-navigation -->
     <div class="glass-panel rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-2">
         <button id="tabEditorBtn" onclick="switchAdminTab('editor')"
@@ -245,17 +226,13 @@
       </div>
     </div>
 
-    <!-- TAB 1: EDITOR BY TEAM -->
     <div id="adminEditorTab" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
-      <!-- Left: Team & Challenge Editor -->
       <div class="lg:col-span-8 glass-panel rounded-2xl p-6 space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-purple-500/20 pb-4">
           <div>
             <h2 class="text-lg font-bold text-white">Editor de Enigmas por Equipe</h2>
             <p class="text-xs text-purple-300/70">Crie perguntas e respostas exclusivas para cada operação</p>
           </div>
-
           <div class="flex items-center gap-2">
             <label class="text-xs text-purple-300 font-semibold">Equipe:</label>
             <select id="adminTeamSelect" onchange="onAdminTeamChange()"
@@ -264,7 +241,6 @@
           </div>
         </div>
 
-        <!-- Challenge Meta -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
           <div class="md:col-span-6">
             <label class="block text-xs text-purple-300/80 mb-1">Título do Desafio</label>
@@ -288,4 +264,1481 @@
               Permitir Diagonais
             </label>
             <label class="flex items-center gap-2 text-xs text-purple-200 cursor-pointer">
-              <input id="adminAllowRev" type="checkbox" checked class="accent-purple-500 rounded"
+              <input id="adminAllowRev" type="checkbox" checked class="accent-purple-500 rounded" />
+              Permitir Invertidas
+            </label>
+          </div>
+        </div>
+
+        <div class="bg-[#0d0b18] border border-purple-500/20 rounded-xl p-3.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-purple-300">Colar em Lote (Formato: Pergunta | RESPOSTA)</span>
+            <button onclick="toggleBulkBox()" class="text-xs text-purple-400 hover:text-purple-200 underline">
+              Mostrar / Ocultar
+            </button>
+          </div>
+          <div id="bulkBoxWrapper" class="hidden mt-3 space-y-2">
+            <textarea id="bulkInput" rows="4"
+              placeholder="Documento que o aluno pega ao se formar | DIPLOMA&#10;Bolsa governamental | PROUNI"
+              class="w-full bg-[#09080f] border border-purple-500/30 rounded-xl p-3 text-xs text-purple-100 font-mono focus:outline-none focus:border-purple-400"></textarea>
+            <div class="flex justify-end">
+              <button onclick="importBulkPairs()"
+                class="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-semibold text-white">
+                Carregar Lista no Editor
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-purple-400">Perguntas e Palavras-Resposta</span>
+            <button onclick="addAdminPairRow()"
+              class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 text-xs font-semibold text-purple-100 transition">
+              + Adicionar Pergunta
+            </button>
+          </div>
+          <div id="adminPairsContainer" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1"></div>
+        </div>
+
+        <div class="pt-4 border-t border-purple-500/20 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="copyTeamShareLink()"
+              class="px-3.5 py-2.5 rounded-xl bg-purple-950 hover:bg-purple-900 border border-purple-400/40 text-xs font-semibold text-purple-200 transition flex items-center gap-1.5">
+              🔗 Copiar Link da Equipe
+            </button>
+            <button onclick="downloadTeamStandaloneHTML()"
+              class="px-3.5 py-2.5 rounded-xl bg-fuchsia-950/70 hover:bg-fuchsia-900/70 border border-fuchsia-400/40 text-xs font-semibold text-fuchsia-200 transition flex items-center gap-1.5">
+              📄 Baixar HTML da Equipe
+            </button>
+          </div>
+
+          <button onclick="saveAdminChallenge()"
+            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-sm font-bold text-white shadow-lg shadow-purple-900/50 transition">
+            Salvar e Ativar Jogo
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 space-y-6">
+        <div class="glass-panel rounded-2xl p-5 space-y-3">
+          <h3 class="text-sm font-bold text-white">Jogos Salvos nesta Equipe</h3>
+          <p class="text-xs text-purple-300/70">Clique para editar ou ativar um conjunto salvo</p>
+          <div id="adminSavedList" class="space-y-2 max-h-[260px] overflow-y-auto"></div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white">Gabarito Rápido</h3>
+            <button onclick="previewAnswerKeyOnPlayer()"
+              class="text-xs text-purple-400 hover:text-purple-200 underline">
+              Ver na Grade
+            </button>
+          </div>
+          <div id="adminAnswerKeyList" class="space-y-1.5 max-h-[240px] overflow-y-auto text-xs"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="adminResultsTab" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">Resultados e Desempenho das Equipes</h2>
+            <p class="text-xs text-purple-300/70">Acompanhe conclusões, tempos e importe comprovantes enviados pelos jogadores</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="resultsTeamFilter" onchange="renderResultsTable()"
+              class="bg-[#0b0914] border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="ALL">Todas as Equipes</option>
+            </select>
+            <button onclick="openImportReceiptModal()"
+              class="px-3.5 py-2 rounded-xl bg-purple-950 hover:bg-purple-900 border border-purple-400/40 text-xs font-semibold text-purple-200">
+              + Importar Código de Comprovante
+            </button>
+            <button onclick="exportSupervisorResultsPDF()"
+              class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 text-xs font-bold text-white shadow-md">
+              ⬇ Exportar Relatório PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-[#0d0b18] border border-purple-500/20 rounded-xl p-4">
+            <div class="text-xs text-purple-400">Total de Conclusões</div>
+            <div id="kpiTotalCompletions" class="text-2xl font-bold text-white mt-1">0</div>
+          </div>
+          <div class="bg-[#0d0b18] border border-purple-500/20 rounded-xl p-4">
+            <div class="text-xs text-purple-400">Tempo Médio</div>
+            <div id="kpiAvgTime" class="text-2xl font-bold text-purple-200 mt-1">00:00</div>
+          </div>
+          <div class="bg-[#0d0b18] border border-purple-500/20 rounded-xl p-4">
+            <div class="text-xs text-purple-400">Média de Dicas Usadas</div>
+            <div id="kpiAvgHints" class="text-2xl font-bold text-fuchsia-300 mt-1">0.0</div>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-purple-500/20">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#161229] text-purple-300 uppercase">
+              <tr>
+                <th class="px-4 py-3">Colaborador</th>
+                <th class="px-4 py-3">Equipe</th>
+                <th class="px-4 py-3">Desafio</th>
+                <th class="px-4 py-3">Tempo</th>
+                <th class="px-4 py-3">Dicas</th>
+                <th class="px-4 py-3">Data / Hora</th>
+                <th class="px-4 py-3">Validação</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody" class="divide-y divide-purple-500/15 bg-[#0b0914]"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="adminSettingsTab" class="hidden max-w-lg mx-auto glass-panel rounded-2xl p-6 space-y-4">
+      <h2 class="text-lg font-bold text-white">Segurança do Painel Supervisor</h2>
+      <p class="text-xs text-purple-300/70">Altere o PIN numérico de acesso administrativo (padrão inicial: 1234).</p>
+      <div>
+        <label class="block text-xs text-purple-300 mb-1">Novo PIN (4 a 8 dígitos)</label>
+        <input id="newPinInput" type="password" maxlength="8" placeholder="Digite o novo PIN"
+          class="w-full bg-[#0b0914] border border-purple-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white" />
+      </div>
+      <button onclick="updateAdminPin()"
+        class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-sm font-bold text-white">
+        Atualizar PIN
+      </button>
+    </div>
+  </main>
+
+  <!-- MODALS -->
+  <div id="pinModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-sm w-full p-6 space-y-4 border-purple-400/40">
+      <h3 class="text-lg font-bold text-white">Acesso Restrito — Supervisor</h3>
+      <p class="text-xs text-purple-300/80">Digite o PIN de administração para gerenciar equipes e resultados.</p>
+      <input id="pinInput" type="password" placeholder="PIN (padrão: 1234)"
+        onkeydown="if(event.key==='Enter') verifyPin()"
+        class="w-full bg-[#0b0914] border border-purple-500/40 rounded-xl px-4 py-3 text-center font-mono text-lg tracking-widest text-white focus:outline-none focus:border-purple-400" />
+      <div class="flex gap-2">
+        <button onclick="closeModal('pinModal')"
+          class="flex-1 py-2.5 rounded-xl bg-purple-950/70 text-xs font-semibold text-purple-300 hover:text-white">
+          Cancelar
+        </button>
+        <button onclick="verifyPin()"
+          class="flex-1 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white">
+          Entrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="victoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-5 border-purple-400/50 neon-glow text-center">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-purple-500 to-fuchsia-600 flex items-center justify-center text-3xl shadow-lg">
+        🏆
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold text-white">Desafio Concluído!</h3>
+        <p id="victorySubtitle" class="text-sm text-purple-200/80 mt-1">Parabéns pela conclusão!</p>
+      </div>
+
+      <div class="bg-[#0b0914] border border-purple-500/25 rounded-2xl p-4 grid grid-cols-3 gap-2 text-center">
+        <div>
+          <div class="text-[11px] text-purple-400">Tempo</div>
+          <div id="vicTime" class="font-mono font-bold text-white text-base">00:00</div>
+        </div>
+        <div>
+          <div class="text-[11px] text-purple-400">Enigmas</div>
+          <div id="vicWords" class="font-mono font-bold text-purple-300 text-base">0/0</div>
+        </div>
+        <div>
+          <div class="text-[11px] text-purple-400">Dicas</div>
+          <div id="vicHints" class="font-mono font-bold text-fuchsia-300 text-base">0</div>
+        </div>
+      </div>
+
+      <div class="bg-[#0d0b18] border border-purple-500/20 rounded-xl p-3 text-left">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-[11px] text-purple-400 font-semibold">Código de Comprovante (para o Supervisor):</span>
+          <button onclick="copyReceiptCode()" class="text-[11px] text-purple-300 underline hover:text-white">Copiar</button>
+        </div>
+        <input id="victoryReceiptCode" type="text" readonly
+          class="w-full bg-[#09080f] border border-purple-500/20 rounded-lg px-2.5 py-1.5 font-mono text-[11px] text-purple-200" />
+      </div>
+
+      <div class="space-y-2.5 pt-1">
+        <button onclick="downloadPlayerPDF()"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-sm font-bold text-white shadow-lg shadow-purple-900/50 flex items-center justify-center gap-2 transition">
+          <span>📄 Salvar Resultado em PDF</span>
+        </button>
+        <button onclick="closeModal('victoryModal'); startNewGame();"
+          class="w-full py-2.5 rounded-xl bg-purple-950/70 hover:bg-purple-900/70 border border-purple-500/30 text-xs font-semibold text-purple-200 transition">
+          Jogar Novamente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="importReceiptModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-md w-full p-6 space-y-4">
+      <h3 class="text-base font-bold text-white">Importar Comprovante de Jogador</h3>
+      <p class="text-xs text-purple-300/80">Cole abaixo o código de comprovante gerado na tela final do colaborador:</p>
+      <textarea id="receiptImportInput" rows="3" placeholder="Cole o código aqui..."
+        class="w-full bg-[#0b0914] border border-purple-500/30 rounded-xl p-3 font-mono text-xs text-white"></textarea>
+      <div class="flex gap-2">
+        <button onclick="closeModal('importReceiptModal')" class="flex-1 py-2 rounded-xl bg-purple-950 text-xs text-purple-300">Cancelar</button>
+        <button onclick="processReceiptImport()" class="flex-1 py-2 rounded-xl bg-purple-600 text-xs font-bold text-white">Adicionar ao Relatório</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TEAMS = [
+      { id: 'processo_seletivo', name: 'Processo Seletivo' },
+      { id: 'central_aluno', name: 'Central do Aluno' },
+      { id: 'receptivo', name: 'Receptivo' },
+      { id: 'reclame_aqui', name: 'Reclame Aqui / Mídias' },
+      { id: 'novos', name: 'Novos' }
+    ];
+
+    const DEFAULT_CHALLENGES = {
+      processo_seletivo: [
+        {
+          id: 'ps_1',
+          title: 'Ingresso & Matrícula',
+          gridSize: 12,
+          allowDiag: true,
+          allowRev: true,
+          pairs: [
+            { q: 'Prova de seleção para ingresso no ensino superior', a: 'VESTIBULAR' },
+            { q: 'Exame nacional usado para ingresso e bolsas', a: 'ENEM' },
+            { q: 'Documento oficial que comprova conclusão do Ensino Médio', a: 'HISTORICO' },
+            { q: 'Vínculo formal do estudante com a instituição', a: 'MATRICULA' },
+            { q: 'Programa governamental de bolsas de estudo', a: 'PROUNI' },
+            { q: 'Avaliação de disciplinas cursadas em outra instituição', a: 'ISENCAO' }
+          ]
+        }
+      ],
+      central_aluno: [
+        {
+          id: 'ca_1',
+          title: 'Atendimento Acadêmico & Financeiro',
+          gridSize: 14,
+          allowDiag: true,
+          allowRev: true,
+          pairs: [
+            { q: 'Documento que o aluno pega ao se formar', a: 'DIPLOMA' },
+            { q: 'Ambiente virtual onde o aluno acessa notas e boletos', a: 'PORTAL' },
+            { q: 'Comprovante mensal de cobrança da mensalidade', a: 'BOLETO' },
+            { q: 'Solicitação formal aberta pelo estudante no sistema', a: 'PROTOCOLO' },
+            { q: 'Documento que atesta vínculo ativo no semestre', a: 'DECLARACAO' },
+            { q: 'Parcelamento ou acordo de débitos em aberto', a: 'NEGOCIACAO' }
+          ]
+        }
+      ],
+      receptivo: [
+        {
+          id: 'rec_1',
+          title: 'Excelência no Atendimento Receptivo',
+          gridSize: 12,
+          allowDiag: true,
+          allowRev: true,
+          pairs: [
+            { q: 'Equipamento de áudio utilizado nas ligações', a: 'HEADSET' },
+            { q: 'Postura de escuta atenta e acolhedora com o aluno', a: 'EMPATIA' },
+            { q: 'Transferência estruturada para outro setor especialista', a: 'ENCAMINHAR' },
+            { q: 'Registro obrigatório de cada contato realizado', a: 'TABULACAO' },
+            { q: 'Tempo máximo esperado para solução da demanda', a: 'PRAZO' },
+            { q: 'Primeiro contato cordial ao iniciar a chamada', a: 'SAUDACAO' }
+          ]
+        }
+      ],
+      reclame_aqui: [
+        {
+          id: 'ra_1',
+          title: 'Gestão de Reputação & Mídias',
+          gridSize: 14,
+          allowDiag: true,
+          allowRev: true,
+          pairs: [
+            { q: 'Plataforma pública de avaliação e reclamações', a: 'RECLAMEAQUI' },
+            { q: 'Status aplicado enquanto o caso está sendo apurado', a: 'TRATATIVA' },
+            { q: 'Retorno oficial publicado após análise do caso', a: 'RESPOSTA' },
+            { q: 'Avaliação final dada pelo consumidor após solução', a: 'NOTA' },
+            { q: 'Contato direto para resolver antes da réplica pública', a: 'CONTATO' },
+            { q: 'Indicador de satisfação e retorno do cliente', a: 'REPUTACAO' }
+          ]
+        }
+      ],
+      novos: [
+        {
+          id: 'novos_1',
+          title: 'DESCUBRA E PROCURE AS PALAVRAS!',
+          gridSize: 14,
+          allowDiag: true,
+          allowRev: true,
+          pairs: [
+            { q: 'Documento de formação.', a: 'DIPLOMA' },
+            { q: 'Bolsa governamental.', a: 'PROUNI' },
+            { q: 'Sistema de registro dos atendimentos.', a: 'SEU' },
+            { q: 'Setor em que trabalho.', a: 'CRU' },
+            { q: 'Situação financeira do aluno.', a: 'EXTRATO' },
+            { q: 'Nome da minha equipe.', a: 'NOVOS' },
+            { q: 'Plataforma de atendimento.', a: 'CHATWOOT' },
+            { q: 'Curso de inglês gratuito.', a: 'VOXY' },
+            { q: 'Ferramenta de trabalho utilizada no Receptivo.', a: 'HEADSET' },
+            { q: 'Financiamento estudantil.', a: 'FIES' },
+            { q: 'Os horários de sábado são.', a: 'ALTERNADOS' },
+            { q: 'Ferramenta para solicitar a análise curricular.', a: 'PORTAL' },
+            { q: 'Não posso atender qual tipo de manifestação do Reclame Aqui?', a: 'EMTRATATIVA' }
+          ]
+        }
+      ]
+    };
+
+    const STORAGE_KEY = 'caca_enigmas_equipes_v2';
+    let appData = {
+      pin: '1234',
+      challenges: JSON.parse(JSON.stringify(DEFAULT_CHALLENGES)),
+      activeChallengeIdByTeam: {
+        processo_seletivo: 'ps_1',
+        central_aluno: 'ca_1',
+        receptivo: 'rec_1',
+        reclame_aqui: 'ra_1',
+        novos: 'novos_1'
+      },
+      results: []
+    };
+
+    let isAdminAuthenticated = false;
+    let lockedTeamId = null;
+    let currentPlayerTeam = 'novos';
+    let currentAdminTeam = 'novos';
+    let editingChallengeId = null;
+
+    let grid = [];
+    let gridSize = 14;
+    let placedWords = [];
+    let foundIndices = new Set();
+    let isSelecting = false;
+    let selectionStart = null;
+    let currentSelection = [];
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let hintsUsed = 0;
+    let soundEnabled = true;
+    let lastVictoryRecord = null;
+    let adminRevealMode = false;
+
+    function init() {
+      loadStorage();
+      parseUrlParameters();
+      populateTeamSelectors();
+      syncPlayerSelectors();
+      loadAdminTeamEditor(currentAdminTeam);
+      startNewGame();
+      renderResultsTable();
+    }
+
+    function loadStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed.pin) appData.pin = parsed.pin;
+          if (parsed.challenges) appData.challenges = { ...appData.challenges, ...parsed.challenges };
+          if (parsed.activeChallengeIdByTeam) {
+            appData.activeChallengeIdByTeam = { ...appData.activeChallengeIdByTeam, ...parsed.activeChallengeIdByTeam };
+          }
+          if (Array.isArray(parsed.results)) appData.results = parsed.results;
+        }
+      } catch (e) {
+        console.warn('Erro ao ler armazenamento local:', e);
+      }
+    }
+
+    function saveStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      } catch (e) {
+        console.warn('Erro ao salvar armazenamento local:', e);
+      }
+    }
+
+    function sanitizeWord(str) {
+      return (str || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toUpperCase()
+        .replace(/[^A-Z]/g, '');
+    }
+
+    function parseUrlParameters() {
+      const params = new URLSearchParams(window.location.search);
+      const encoded = params.get('equipe');
+      if (encoded) {
+        try {
+          const decoded = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+          if (decoded && decoded.tid && Array.isArray(decoded.i)) {
+            const teamId = TEAMS.some(t => t.id === decoded.tid) ? decoded.tid : 'novos';
+            const importedChallenge = {
+              id: 'shared_' + teamId,
+              title: decoded.t || 'Desafio da Equipe',
+              gridSize: Number(decoded.s) || 14,
+              allowDiag: decoded.d !== 0,
+              allowRev: decoded.r !== 0,
+              pairs: decoded.i.map(pair => ({
+                q: pair[0],
+                a: sanitizeWord(pair[1])
+              })).filter(p => p.q && p.a.length >= 2)
+            };
+
+            if (!appData.challenges[teamId]) appData.challenges[teamId] = [];
+            const existingIdx = appData.challenges[teamId].findIndex(c => c.id === importedChallenge.id);
+            if (existingIdx >= 0) {
+              appData.challenges[teamId][existingIdx] = importedChallenge;
+            } else {
+              appData.challenges[teamId].unshift(importedChallenge);
+            }
+            appData.activeChallengeIdByTeam[teamId] = importedChallenge.id;
+            saveStorage();
+
+            lockedTeamId = teamId;
+            currentPlayerTeam = teamId;
+            currentAdminTeam = teamId;
+          }
+        } catch (err) {
+          console.error('Falha ao decodificar link da equipe:', err);
+        }
+      }
+    }
+
+    function populateTeamSelectors() {
+      const playerSel = document.getElementById('playerTeamSelect');
+      const adminSel = document.getElementById('adminTeamSelect');
+      const filterSel = document.getElementById('resultsTeamFilter');
+
+      playerSel.innerHTML = '';
+      adminSel.innerHTML = '';
+      filterSel.innerHTML = '<option value="ALL">Todas as Equipes</option>';
+
+      TEAMS.forEach(team => {
+        playerSel.add(new Option(team.name, team.id));
+        adminSel.add(new Option(team.name, team.id));
+        filterSel.add(new Option(team.name, team.id));
+      });
+
+      if (lockedTeamId) {
+        playerSel.value = lockedTeamId;
+        playerSel.disabled = true;
+        document.getElementById('lockedTeamBadge').classList.remove('hidden');
+      } else {
+        playerSel.value = currentPlayerTeam;
+      }
+      adminSel.value = currentAdminTeam;
+    }
+
+    function syncPlayerSelectors() {
+      const teamId = document.getElementById('playerTeamSelect').value;
+      currentPlayerTeam = teamId;
+      const list = appData.challenges[teamId] || [];
+      const chalSel = document.getElementById('playerChallengeSelect');
+      chalSel.innerHTML = '';
+
+      list.forEach(c => {
+        chalSel.add(new Option(`${c.title} (${c.pairs.length} enigmas)`, c.id));
+      });
+
+      const activeId = appData.activeChallengeIdByTeam[teamId];
+      if (activeId && list.some(c => c.id === activeId)) {
+        chalSel.value = activeId;
+      } else if (list.length > 0) {
+        chalSel.value = list[0].id;
+        appData.activeChallengeIdByTeam[teamId] = list[0].id;
+      }
+    }
+
+    function onPlayerTeamChange() {
+      adminRevealMode = false;
+      syncPlayerSelectors();
+      startNewGame();
+    }
+
+    function onPlayerChallengeChange() {
+      adminRevealMode = false;
+      const teamId = document.getElementById('playerTeamSelect').value;
+      const chalId = document.getElementById('playerChallengeSelect').value;
+      appData.activeChallengeIdByTeam[teamId] = chalId;
+      saveStorage();
+      startNewGame();
+    }
+
+    function getActivePlayerChallenge() {
+      const teamId = currentPlayerTeam;
+      const list = appData.challenges[teamId] || [];
+      const activeId = appData.activeChallengeIdByTeam[teamId];
+      return list.find(c => c.id === activeId) || list[0];
+    }
+
+    function switchView(view) {
+      const playerView = document.getElementById('playerView');
+      const adminView = document.getElementById('adminView');
+      const btnP = document.getElementById('btnNavPlayer');
+      const btnA = document.getElementById('btnNavAdmin');
+
+      if (view === 'player') {
+        playerView.classList.remove('hidden');
+        adminView.classList.add('hidden');
+        btnP.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-purple-600 text-white shadow-md';
+        btnA.className = 'px-4 py-2 rounded-lg text-sm font-semibold text-purple-300 hover:text-white transition-all flex items-center gap-1.5';
+        syncPlayerSelectors();
+        startNewGame();
+      } else {
+        playerView.classList.add('hidden');
+        adminView.classList.remove('hidden');
+        btnA.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-purple-600 text-white shadow-md flex items-center gap-1.5';
+        btnP.className = 'px-4 py-2 rounded-lg text-sm font-semibold text-purple-300 hover:text-white transition-all';
+        loadAdminTeamEditor(currentAdminTeam);
+        renderResultsTable();
+      }
+    }
+
+    function requestAdminAccess() {
+      if (isAdminAuthenticated) {
+        switchView('admin');
+      } else {
+        document.getElementById('pinInput').value = '';
+        openModal('pinModal');
+        setTimeout(() => document.getElementById('pinInput').focus(), 100);
+      }
+    }
+
+    function verifyPin() {
+      const entered = document.getElementById('pinInput').value.trim();
+      if (entered === appData.pin) {
+        isAdminAuthenticated = true;
+        closeModal('pinModal');
+        switchView('admin');
+        showToast('Acesso de supervisor liberado');
+      } else {
+        showToast('PIN incorreto');
+      }
+    }
+
+    function startNewGame() {
+      const challenge = getActivePlayerChallenge();
+      if (!challenge) return;
+
+      const teamObj = TEAMS.find(t => t.id === currentPlayerTeam);
+      document.getElementById('activeTeamTag').textContent = `Equipe: ${teamObj ? teamObj.name : currentPlayerTeam}`;
+      document.getElementById('challengeTitleDisplay').textContent = challenge.title;
+
+      foundIndices.clear();
+      hintsUsed = 0;
+      document.getElementById('hintCounterBadge').textContent = '0';
+
+      const cleanedPairs = challenge.pairs
+        .map((p, idx) => ({ idx, q: p.q, a: sanitizeWord(p.a) }))
+        .filter(p => p.a.length >= 2);
+
+      const maxWordLen = cleanedPairs.reduce((max, p) => Math.max(max, p.a.length), 0);
+      gridSize = Math.max(Number(challenge.gridSize) || 14, maxWordLen + 1);
+
+      buildGrid(cleanedPairs, gridSize, challenge.allowDiag, challenge.allowRev);
+      renderGrid();
+      renderEnigmasList(cleanedPairs);
+      updateProgress();
+      resetTimer();
+    }
+
+    function buildGrid(pairs, size, allowDiag, allowRev) {
+      grid = Array.from({ length: size }, () => Array(size).fill(''));
+      placedWords = [];
+
+      const directions = [[0, 1], [1, 0]];
+      if (allowRev) directions.push([0, -1], [-1, 0]);
+      if (allowDiag) {
+        directions.push([1, 1], [-1, 1]);
+        if (allowRev) directions.push([1, -1], [-1, -1]);
+      }
+
+      const sorted = [...pairs].sort((a, b) => b.a.length - a.a.length);
+
+      sorted.forEach(item => {
+        const word = item.a;
+        let placed = false;
+        let attempts = 0;
+
+        while (!placed && attempts < 350) {
+          attempts++;
+          const dir = directions[Math.floor(Math.random() * directions.length)];
+          const startR = Math.floor(Math.random() * size);
+          const startC = Math.floor(Math.random() * size);
+
+          const endR = startR + dir[0] * (word.length - 1);
+          const endC = startC + dir[1] * (word.length - 1);
+
+          if (endR < 0 || endR >= size || endC < 0 || endC >= size) continue;
+
+          let canPlace = true;
+          const coords = [];
+          for (let i = 0; i < word.length; i++) {
+            const r = startR + dir[0] * i;
+            const c = startC + dir[1] * i;
+            if (grid[r][c] !== '' && grid[r][c] !== word[i]) {
+              canPlace = false;
+              break;
+            }
+            coords.push({ r, c });
+          }
+
+          if (canPlace) {
+            for (let i = 0; i < word.length; i++) {
+              grid[coords[i].r][coords[i].c] = word[i];
+            }
+            placedWords.push({
+              pairIndex: item.idx,
+              question: item.q,
+              word: word,
+              coords
+            });
+            placed = true;
+          }
+        }
+      });
+
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (grid[r][c] === '') {
+            grid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+          }
+        }
+      }
+    }
+
+    function renderGrid() {
+      const container = document.getElementById('wordGrid');
+      container.innerHTML = '';
+      container.style.gridTemplateColumns = `repeat(${gridSize}, minmax(0, 1fr))`;
+
+      const cellSizeClass = gridSize >= 16
+        ? 'w-7 h-7 sm:w-8 sm:h-8 text-xs sm:text-sm'
+        : gridSize >= 14
+          ? 'w-8 h-8 sm:w-9 sm:h-9 text-sm sm:text-base'
+          : 'w-9 h-9 sm:w-11 sm:h-11 text-base sm:text-lg';
+
+      const adminCoordsSet = new Set();
+      if (adminRevealMode) {
+        placedWords.forEach(pw => pw.coords.forEach(pt => adminCoordsSet.add(`${pt.r},${pt.c}`)));
+      }
+
+      for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+          const cell = document.createElement('div');
+          cell.dataset.r = r;
+          cell.dataset.c = c;
+          cell.textContent = grid[r][c];
+          cell.className = `grid-cell ${cellSizeClass} flex items-center justify-center rounded-lg border border-purple-500/15 bg-[#131022] font-bold text-purple-100 cursor-pointer`;
+          if (adminCoordsSet.has(`${r},${c}`)) {
+            cell.classList.add('admin-reveal');
+          }
+          container.appendChild(cell);
+        }
+      }
+
+      attachGridEvents(container);
+    }
+
+    function attachGridEvents(container) {
+      const getCellFromEvent = (e) => {
+        const touch = e.touches ? e.touches[0] : e;
+        const el = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (el && el.classList.contains('grid-cell')) {
+          return { r: Number(el.dataset.r), c: Number(el.dataset.c) };
+        }
+        return null;
+      };
+
+      const onStart = (e) => {
+        const pos = getCellFromEvent(e);
+        if (!pos) return;
+        isSelecting = true;
+        selectionStart = pos;
+        currentSelection = [pos];
+        highlightSelection();
+      };
+
+      const onMove = (e) => {
+        if (!isSelecting || !selectionStart) return;
+        if (e.cancelable) e.preventDefault();
+        const pos = getCellFromEvent(e);
+        if (!pos) return;
+
+        const dr = pos.r - selectionStart.r;
+        const dc = pos.c - selectionStart.c;
+
+        if (dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) {
+          const steps = Math.max(Math.abs(dr), Math.abs(dc));
+          const stepR = dr === 0 ? 0 : dr / steps;
+          const stepC = dc === 0 ? 0 : dc / steps;
+          const line = [];
+          for (let i = 0; i <= steps; i++) {
+            line.push({ r: selectionStart.r + stepR * i, c: selectionStart.c + stepC * i });
+          }
+          currentSelection = line;
+          highlightSelection();
+        }
+      };
+
+      const onEnd = () => {
+        if (!isSelecting) return;
+        isSelecting = false;
+        validateSelection();
+        clearSelectionHighlight();
+        selectionStart = null;
+        currentSelection = [];
+      };
+
+      container.onmousedown = onStart;
+      window.onmousemove = onMove;
+      window.onmouseup = onEnd;
+
+      container.ontouchstart = onStart;
+      container.ontouchmove = onMove;
+      container.ontouchend = onEnd;
+    }
+
+    function highlightSelection() {
+      clearSelectionHighlight();
+      currentSelection.forEach(pt => {
+        const cell = document.querySelector(`.grid-cell[data-r="${pt.r}"][data-c="${pt.c}"]`);
+        if (cell) cell.classList.add('selecting');
+      });
+    }
+
+    function clearSelectionHighlight() {
+      document.querySelectorAll('.grid-cell.selecting').forEach(el => el.classList.remove('selecting'));
+    }
+
+    function validateSelection() {
+      if (currentSelection.length < 2) return;
+      const selectedWord = currentSelection.map(pt => grid[pt.r][pt.c]).join('');
+      const reversedWord = selectedWord.split('').reverse().join('');
+
+      const match = placedWords.find(pw =>
+        !foundIndices.has(pw.pairIndex) &&
+        (pw.word === selectedWord || pw.word === reversedWord)
+      );
+
+      if (match) {
+        foundIndices.add(match.pairIndex);
+        match.coords.forEach(pt => {
+          const cell = document.querySelector(`.grid-cell[data-r="${pt.r}"][data-c="${pt.c}"]`);
+          if (cell) cell.classList.add('found');
+        });
+        playTone(660, 0.12);
+        setTimeout(() => playTone(880, 0.18), 90);
+        markEnigmaFound(match.pairIndex, match.word);
+        updateProgress();
+
+        if (foundIndices.size === placedWords.length && placedWords.length > 0) {
+          handleGameVictory();
+        }
+      }
+    }
+
+    function renderEnigmasList() {
+      const container = document.getElementById('enigmasList');
+      container.innerHTML = '';
+
+      const activePlaced = [...placedWords].sort((a, b) => a.pairIndex - b.pairIndex);
+
+      activePlaced.forEach((item, displayIdx) => {
+        const card = document.createElement('div');
+        card.id = `enigma-card-${item.pairIndex}`;
+        card.className = 'p-3.5 rounded-xl bg-[#0d0b18] border border-purple-500/20 transition-all';
+
+        const blanks = Array(item.word.length).fill('_').join(' ');
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <p class="text-xs sm:text-sm text-purple-100 font-medium leading-snug">
+              <span class="text-purple-400 font-bold mr-1">${displayIdx + 1}.</span> ${escapeHtml(item.question)}
+            </p>
+            <span class="shrink-0 text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-500/20">
+              ${item.word.length} letras
+            </span>
+          </div>
+          <div id="enigma-answer-${item.pairIndex}" class="mt-2 font-mono text-xs tracking-widest text-purple-400/70">
+            ${blanks}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function markEnigmaFound(pairIndex, word) {
+      const card = document.getElementById(`enigma-card-${pairIndex}`);
+      const ansEl = document.getElementById(`enigma-answer-${pairIndex}`);
+      if (card) {
+        card.classList.remove('bg-[#0d0b18]', 'border-purple-500/20');
+        card.classList.add('bg-purple-900/35', 'border-purple-400/60');
+      }
+      if (ansEl) {
+        ansEl.textContent = `✓ ${word}`;
+        ansEl.className = 'mt-2 font-mono text-xs font-bold tracking-widest text-fuchsia-300';
+      }
+    }
+
+    function useHint() {
+      const remaining = placedWords.filter(pw => !foundIndices.has(pw.pairIndex));
+      if (remaining.length === 0) return;
+
+      const target = remaining[Math.floor(Math.random() * remaining.length)];
+      hintsUsed++;
+      document.getElementById('hintCounterBadge').textContent = hintsUsed;
+
+      const ansEl = document.getElementById(`enigma-answer-${target.pairIndex}`);
+      if (ansEl) {
+        const revealed = [target.word[0], ...Array(target.word.length - 1).fill('_')].join(' ');
+        ansEl.textContent = revealed;
+        ansEl.classList.add('text-purple-300');
+      }
+
+      const firstCoord = target.coords[0];
+      const cell = document.querySelector(`.grid-cell[data-r="${firstCoord.r}"][data-c="${firstCoord.c}"]`);
+      if (cell) {
+        cell.classList.remove('hint-flash');
+        void cell.offsetWidth;
+        cell.classList.add('hint-flash');
+      }
+
+      playTone(520, 0.15);
+      showToast(`Dica: Começa com "${target.word[0]}" (${target.word.length} letras)`);
+    }
+
+    function updateProgress() {
+      document.getElementById('progressDisplay').textContent = `${foundIndices.size} / ${placedWords.length}`;
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerSeconds = 0;
+      document.getElementById('timerDisplay').textContent = '00:00';
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        document.getElementById('timerDisplay').textContent = formatTime(timerSeconds);
+      }, 1000);
+    }
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('btnSound').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    function playTone(freq, duration) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function handleGameVictory() {
+      clearInterval(timerInterval);
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 }, colors: ['#c084fc', '#e879f9', '#7e22ce'] });
+      }
+
+      const rawName = document.getElementById('playerNameInput').value.trim();
+      const playerName = rawName || 'Participante (Não identificado)';
+      const teamObj = TEAMS.find(t => t.id === currentPlayerTeam);
+      const challenge = getActivePlayerChallenge();
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const validationId = 'CP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+      const record = {
+        id: validationId,
+        playerName,
+        teamId: currentPlayerTeam,
+        teamName: teamObj ? teamObj.name : currentPlayerTeam,
+        challengeTitle: challenge ? challenge.title : 'Desafio',
+        timeSeconds: timerSeconds,
+        timeFormatted: formatTime(timerSeconds),
+        wordsCount: placedWords.length,
+        hintsUsed,
+        dateStr,
+        solvedPairs: placedWords.map(p => ({ q: p.question, a: p.word }))
+      };
+
+      lastVictoryRecord = record;
+      appData.results.unshift(record);
+      saveStorage();
+      renderResultsTable();
+
+      const receiptPayload = btoa(unescape(encodeURIComponent(JSON.stringify({
+        id: record.id,
+        n: record.playerName,
+        tid: record.teamId,
+        tn: record.teamName,
+        c: record.challengeTitle,
+        ts: record.timeSeconds,
+        tf: record.timeFormatted,
+        w: record.wordsCount,
+        h: record.hintsUsed,
+        d: record.dateStr
+      }))));
+
+      document.getElementById('victorySubtitle').textContent = `${playerName} • Equipe ${record.teamName}`;
+      document.getElementById('vicTime').textContent = record.timeFormatted;
+      document.getElementById('vicWords').textContent = `${record.wordsCount}/${record.wordsCount}`;
+      document.getElementById('vicHints').textContent = record.hintsUsed;
+      document.getElementById('victoryReceiptCode').value = receiptPayload;
+
+      openModal('victoryModal');
+    }
+
+    function copyReceiptCode() {
+      const input = document.getElementById('victoryReceiptCode');
+      input.select();
+      navigator.clipboard.writeText(input.value);
+      showToast('Código de comprovante copiado!');
+    }
+
+    function downloadPlayerPDF() {
+      if (!lastVictoryRecord || !window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const r = lastVictoryRecord;
+
+      doc.setFillColor(19, 17, 31);
+      doc.rect(0, 0, 210, 46, 'F');
+      doc.setTextColor(192, 132, 252);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text('CERTIFICADO DE CONCLUSÃO • TREINAMENTO GAMIFICADO', 15, 16);
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.text('Caça-Palavras Enigmas', 15, 29);
+      doc.setTextColor(216, 180, 254);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Código de Validação: ${r.id}   |   Data: ${r.dateStr}`, 15, 39);
+
+      doc.setDrawColor(168, 85, 247);
+      doc.setFillColor(248, 245, 255);
+      doc.roundedRect(15, 55, 180, 44, 3, 3, 'FD');
+      doc.setTextColor(40, 20, 70);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text('DADOS DO PARTICIPANTE', 20, 64);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text(`Colaborador: ${r.playerName}`, 20, 73);
+      doc.text(`Equipe: ${r.teamName}`, 20, 80);
+      doc.text(`Desafio: ${r.challengeTitle}`, 20, 87);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Tempo Final: ${r.timeFormatted}   |   Enigmas Resolvidos: ${r.wordsCount}   |   Dicas: ${r.hintsUsed}`, 20, 94);
+
+      doc.setTextColor(30, 20, 50);
+      doc.setFontSize(12);
+      doc.text('Enigmas Decifrados:', 15, 112);
+
+      let y = 121;
+      doc.setFontSize(9.5);
+      r.solvedPairs.forEach((item, idx) => {
+        if (y > 272) {
+          doc.addPage();
+          y = 20;
+        }
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(107, 33, 168);
+        doc.text(`${idx + 1}. [${item.a}]`, 15, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(60, 60, 70);
+        const lines = doc.splitTextToSize(item.q, 145);
+        doc.text(lines, 52, y);
+        y += Math.max(7, lines.length * 5 + 2);
+      });
+
+      const safeFileName = r.playerName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      doc.save(`resultado-${r.teamId}-${safeFileName}.pdf`);
+      showToast('PDF salvo com sucesso!');
+    }
+
+    function switchAdminTab(tab) {
+      document.getElementById('adminEditorTab').classList.toggle('hidden', tab !== 'editor');
+      document.getElementById('adminResultsTab').classList.toggle('hidden', tab !== 'results');
+      document.getElementById('adminSettingsTab').classList.toggle('hidden', tab !== 'settings');
+
+      const activeClass = 'px-4 py-2 rounded-xl text-sm font-semibold bg-purple-600 text-white transition';
+      const inactiveClass = 'px-4 py-2 rounded-xl text-sm font-semibold text-purple-300 hover:text-white bg-purple-950/40 transition';
+
+      document.getElementById('tabEditorBtn').className = tab === 'editor' ? activeClass : inactiveClass;
+      document.getElementById('tabResultsBtn').className = tab === 'results' ? activeClass : inactiveClass;
+      document.getElementById('tabSettingsBtn').className = tab === 'settings' ? activeClass : inactiveClass;
+    }
+
+    function onAdminTeamChange() {
+      currentAdminTeam = document.getElementById('adminTeamSelect').value;
+      loadAdminTeamEditor(currentAdminTeam);
+    }
+
+    function loadAdminTeamEditor(teamId) {
+      const list = appData.challenges[teamId] || [];
+      const activeId = appData.activeChallengeIdByTeam[teamId];
+      const challenge = list.find(c => c.id === activeId) || list[0];
+
+      if (challenge) {
+        editingChallengeId = challenge.id;
+        document.getElementById('adminChallengeTitle').value = challenge.title;
+        document.getElementById('adminGridSize').value = String(challenge.gridSize || 14);
+        document.getElementById('adminAllowDiag').checked = challenge.allowDiag !== false;
+        document.getElementById('adminAllowRev').checked = challenge.allowRev !== false;
+        renderAdminPairs(challenge.pairs);
+        renderAdminAnswerKey(challenge.pairs);
+      } else {
+        editingChallengeId = 'chal_' + Date.now();
+        document.getElementById('adminChallengeTitle').value = 'Novo Desafio';
+        renderAdminPairs([{ q: '', a: '' }]);
+        renderAdminAnswerKey([]);
+      }
+
+      renderAdminSavedList(teamId);
+    }
+
+    function renderAdminPairs(pairs) {
+      const container = document.getElementById('adminPairsContainer');
+      container.innerHTML = '';
+      pairs.forEach(p => addAdminPairRow(p.q, p.a));
+    }
+
+    function addAdminPairRow(qVal = '', aVal = '') {
+      const container = document.getElementById('adminPairsContainer');
+      const row = document.createElement('div');
+      row.className = 'grid grid-cols-1 sm:grid-cols-12 gap-2 bg-[#0d0b18] p-2.5 rounded-xl border border-purple-500/20 items-center';
+      row.innerHTML = `
+        <input type="text" placeholder="Pergunta / Dica para o jogador" value="${escapeAttr(qVal)}"
+          class="admin-q sm:col-span-7 bg-[#09080f] border border-purple-500/25 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400" />
+        <input type="text" placeholder="RESPOSTA" value="${escapeAttr(aVal)}"
+          class="admin-a sm:col-span-4 bg-[#09080f] border border-purple-500/25 rounded-lg px-3 py-2 text-xs font-mono uppercase text-purple-200 focus:outline-none focus:border-purple-400" />
+        <button onclick="this.parentElement.remove()" title="Remover"
+          class="sm:col-span-1 py-2 rounded-lg bg-red-950/50 hover:bg-red-900/60 text-red-300 text-xs font-bold">
+          ✕
+        </button>
+      `;
+      container.appendChild(row);
+    }
+
+    function toggleBulkBox() {
+      document.getElementById('bulkBoxWrapper').classList.toggle('hidden');
+    }
+
+    function importBulkPairs() {
+      const raw = document.getElementById('bulkInput').value.trim();
+      if (!raw) return;
+      const lines = raw.split('\n');
+      const parsed = [];
+      lines.forEach(line => {
+        const parts = line.split('|');
+        if (parts.length >= 2) {
+          const q = parts[0].trim();
+          const a = sanitizeWord(parts.slice(1).join(''));
+          if (q && a.length >= 2) parsed.push({ q, a });
+        }
+      });
+
+      if (parsed.length > 0) {
+        renderAdminPairs(parsed);
+        document.getElementById('bulkInput').value = '';
+        toggleBulkBox();
+        showToast(`${parsed.length} perguntas carregadas no editor!`);
+      } else {
+        showToast('Use o formato: Pergunta | RESPOSTA');
+      }
+    }
+
+    function collectAdminFormChallenge() {
+      const title = document.getElementById('adminChallengeTitle').value.trim() || 'Desafio da Equipe';
+      const gridSizeVal = Number(document.getElementById('adminGridSize').value) || 14;
+      const allowDiag = document.getElementById('adminAllowDiag').checked;
+      const allowRev = document.getElementById('adminAllowRev').checked;
+
+      const qInputs = document.querySelectorAll('.admin-q');
+      const aInputs = document.querySelectorAll('.admin-a');
+      const pairs = [];
+
+      for (let i = 0; i < qInputs.length; i++) {
+        const q = qInputs[i].value.trim();
+        const a = sanitizeWord(aInputs[i].value);
+        if (q && a.length >= 2) {
+          pairs.push({ q, a });
+        }
+      }
+
+      return {
+        id: editingChallengeId || ('chal_' + Date.now()),
+        title,
+        gridSize: gridSizeVal,
+        allowDiag,
+        allowRev,
+        pairs
+      };
+    }
+
+    function saveAdminChallenge() {
+      const challenge = collectAdminFormChallenge();
+      if (challenge.pairs.length === 0) {
+        showToast('Adicione pelo menos 1 pergunta e resposta válida!');
+        return;
+      }
+
+      if (!appData.challenges[currentAdminTeam]) appData.challenges[currentAdminTeam] = [];
+      const list = appData.challenges[currentAdminTeam];
+      const idx = list.findIndex(c => c.id === challenge.id);
+
+      if (idx >= 0) {
+        list[idx] = challenge;
+      } else {
+        list.unshift(challenge);
+      }
+
+      appData.activeChallengeIdByTeam[currentAdminTeam] = challenge.id;
+      currentPlayerTeam = currentAdminTeam;
+      saveStorage();
+
+      renderAdminSavedList(currentAdminTeam);
+      renderAdminAnswerKey(challenge.pairs);
+      showToast('Jogo salvo e ativado para a equipe!');
+    }
+
+    function renderAdminSavedList(teamId) {
+      const container = document.getElementById('adminSavedList');
+      container.innerHTML = '';
+      const list = appData.challenges[teamId] || [];
+      const activeId = appData.activeChallengeIdByTeam[teamId];
+
+      list.forEach(c => {
+        const isActive = c.id === activeId;
+        const div = document.createElement('div');
+        div.className = `p-3 rounded-xl border flex items-center justify-between gap-2 ${
+          isActive ? 'bg-purple-900/35 border-purple-400/60' : 'bg-[#0d0b18] border-purple-500/20'
+        }`;
+        div.innerHTML = `
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-white truncate">${escapeHtml(c.title)}</div>
+            <div class="text-[11px] text-purple-300/70">${c.pairs.length} enigmas • Grade ${c.gridSize}x${c.gridSize}</div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="selectSavedChallenge('${teamId}', '${c.id}')"
+              class="px-2.5 py-1 rounded-lg bg-purple-600/40 hover:bg-purple-600 text-[11px] font-semibold text-white">
+              ${isActive ? 'Ativo' : 'Ativar'}
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      const newBtn = document.createElement('button');
+      newBtn.className = 'w-full py-2 rounded-xl border border-dashed border-purple-500/40 text-xs text-purple-300 hover:text-white hover:border-purple-400 transition mt-2';
+      newBtn.textContent = '+ Criar Novo Conjunto para esta Equipe';
+      newBtn.onclick = () => {
+        editingChallengeId = 'chal_' + Date.now();
+        document.getElementById('adminChallengeTitle').value = 'Novo Desafio';
+        renderAdminPairs([{ q: '', a: '' }]);
+        renderAdminAnswerKey([]);
+      };
+      container.appendChild(newBtn);
+    }
+
+    function selectSavedChallenge(teamId, chalId) {
+      appData.activeChallengeIdByTeam[teamId] = chalId;
+      saveStorage();
+      loadAdminTeamEditor(teamId);
+      showToast('Desafio ativado!');
+    }
+
+    function renderAdminAnswerKey(pairs) {
+      const container = document.getElementById('adminAnswerKeyList');
+      container.innerHTML = '';
+      pairs.forEach((p, idx) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between gap-2 py-1 border-b border-purple-500/10';
+        item.innerHTML = `
+          <span class="text-purple-300/80 truncate">${idx + 1}. ${escapeHtml(p.q)}</span>
+          <span class="font-mono font-bold text-fuchsia-300 shrink-0">${p.a}</span>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function previewAnswerKeyOnPlayer() {
+      saveAdminChallenge();
+      adminRevealMode = true;
+      switchView('player');
+      showToast('Gabarito destacado na grade!');
+    }
+
+    function buildEncodedTeamPayload() {
+      const challenge = collectAdminFormChallenge();
+      const teamObj = TEAMS.find(t => t.id === currentAdminTeam);
+      const payload = {
+        tid: currentAdminTeam,
+        tn: teamObj ? teamObj.name : currentAdminTeam,
+        t: challenge.title,
+        i: challenge.pairs.map(p => [p.q, p.a]),
+        s: challenge.gridSize,
+        d: challenge.allowDiag ? 1 : 0,
+        r: challenge.allowRev ? 1 : 0
+      };
+      return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    }
+
+    function copyTeamShareLink() {
+      saveAdminChallenge();
+      if (window.location.protocol === 'blob:' || window.location.protocol === 'file:') {
+        showToast('Aviso: em arquivo local/blob use "Baixar HTML da Equipe" ou hospede online.');
+      }
+      const encoded = buildEncodedTeamPayload();
+      const baseUrl = window.location.href.split('?')[0];
+      const fullUrl = `${baseUrl}?equipe=${encoded}`;
+      navigator.clipboard.writeText(fullUrl);
+      showToast('Link da equipe copiado para a área de transferência!');
+    }
+
+    function downloadTeamStandaloneHTML() {
+      saveAdminChallenge();
+      const challenge = collectAdminFormChallenge();
+      const teamId = currentAdminTeam;
+
+      let htmlSource = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const bootstrapScript = `<script>
+        window.addEventListener('DOMContentLoaded', function() {
+          lockedTeamId = ${JSON.stringify(teamId)};
+          currentPlayerTeam = ${JSON.stringify(teamId)};
+          currentAdminTeam = ${JSON.stringify(teamId)};
+          appData.challenges[${JSON.stringify(teamId)}] = [${JSON.stringify(challenge)}];
+          appData.activeChallengeIdByTeam[${JSON.stringify(teamId)}] = ${JSON.stringify(challenge.id)};
+          populateTeamSelectors();
+          syncPlayerSelectors();
+          startNewGame();
+        });
+      <\/script>`;
+
+      htmlSource = htmlSource.replace('</body>', bootstrapScript + '\n</body>');
+      const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `caca-palavras-${teamId}.html`;
+      a.click();
+      showToast(`Arquivo caca-palavras-${teamId}.html baixado!`);
+    }
+
+    function renderResultsTable() {
+      const filter = document.getElementById('resultsTeamFilter').value;
+      const filtered = filter === 'ALL'
+        ? appData.results
+        : appData.results.filter(r => r.teamId === filter);
+
+      document.getElementById('kpiTotalCompletions').textContent = filtered.length;
+      if (filtered.length > 0) {
+        const avgSec = Math.round(filtered.reduce((acc, r) => acc + (r.timeSeconds || 0), 0) / filtered.length);
+        const avgHints = (filtered.reduce((acc, r) => acc + (r.hintsUsed || 0), 0) / filtered.length).toFixed(1);
+        document.getElementById('kpiAvgTime').textContent = formatTime(avgSec);
+        document.getElementById('kpiAvgHints').textContent = avgHints;
+      } else {
+        document.getElementById('kpiAvgTime').textContent = '00:00';
+        document.getElementById('kpiAvgHints').textContent = '0.0';
+      }
+
+      const tbody = document.getElementById('resultsTableBody');
+      tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-purple-300/60">Nenhum resultado registrado para este filtro ainda.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-purple-950/20';
+        tr.innerHTML = `
+          <td class="px-4 py-3 font-semibold text-white">${escapeHtml(r.playerName)}</td>
+          <td class="px-4 py-3 text-purple-300">${escapeHtml(r.teamName)}</td>
+          <td class="px-4 py-3 text-purple-200/80">${escapeHtml(r.challengeTitle)}</td>
+          <td class="px-4 py-3 font-mono text-white">${r.timeFormatted}</td>
+          <td class="px-4 py-3 font-mono text-fuchsia-300">${r.hintsUsed}</td>
+          <td class="px-4 py-3 text-purple-300/70">${r.dateStr}</td>
+          <td class="px-4 py-3 font-mono text-[11px] text-purple-400">${r.id}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openImportReceiptModal() {
+      document.getElementById('receiptImportInput').value = '';
+      openModal('importReceiptModal');
+    }
+
+    function processReceiptImport() {
+      const code = document.getElementById('receiptImportInput').value.trim();
+      if (!code) return;
+      try {
+        const obj = JSON.parse(decodeURIComponent(escape(atob(code))));
+        if (!obj || !obj.id || !obj.n) throw new Error('Invalid');
+        if (appData.results.some(r => r.id === obj.id)) {
+          showToast('Este comprovante já está registrado na tabela.');
+          closeModal('importReceiptModal');
+          return;
+        }
+        appData.results.unshift({
+          id: obj.id,
+          playerName: obj.n,
+          teamId: obj.tid || 'novos',
+          teamName: obj.tn || 'Equipe',
+          challengeTitle: obj.c || 'Desafio',
+          timeSeconds: Number(obj.ts) || 0,
+          timeFormatted: obj.tf || '00:00',
+          wordsCount: Number(obj.w) || 0,
+          hintsUsed: Number(obj.h) || 0,
+          dateStr: obj.d || ''
+        });
+        saveStorage();
+        renderResultsTable();
+        closeModal('importReceiptModal');
+        showToast('Comprovante importado com sucesso!');
+      } catch (e) {
+        showToast('Código de comprovante inválido.');
+      }
+    }
+
+    function exportSupervisorResultsPDF() {
+      if (!window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const filter = document.getElementById('resultsTeamFilter').value;
+      const filtered = filter === 'ALL'
+        ? appData.results
+        : appData.results.filter(r => r.teamId === filter);
+
+      doc.setFillColor(19, 17, 31);
+      doc.rect(0, 0, 210, 36, 'F');
+      doc.setTextColor(192, 132, 252);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('RELATÓRIO GERENCIAL • CAÇA-PALAVRAS ENIGMAS', 14, 14);
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text(`Desempenho das Equipes (${filtered.length} registros)`, 14, 26);
+
+      let y = 46;
+      doc.setFontSize(9);
+      doc.setTextColor(80, 30, 130);
+      doc.text('Colaborador | Equipe | Desafio | Tempo | Dicas | Data | Código', 14, y);
+      y += 6;
+      doc.setDrawColor(192, 132, 252);
+      doc.line(14, y, 196, y);
+      y += 6;
+
+      doc.setTextColor(40, 40, 50);
+      doc.setFont('helvetica', 'normal');
+      filtered.forEach(r => {
+        if (y > 280) {
+          doc.addPage();
+          y = 20;
+        }
+        const line = `${r.playerName} | ${r.teamName} | ${r.challengeTitle} | ${r.timeFormatted} | Dicas: ${r.hintsUsed} | ${r.dateStr} | ${r.id}`;
+        const wrapped = doc.splitTextToSize(line, 182);
+        doc.text(wrapped, 14, y);
+        y += wrapped.length * 5 + 3;
+      });
+
+      doc.save('relatorio-equipes-caca-palavras.pdf');
+      showToast('Relatório PDF exportado!');
+    }
+
+    function exportFullBackup() {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'backup-caca-palavras-equipes.json';
+      a.click();
+      showToast('Backup JSON baixado!');
+    }
+
+    function importFullBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.challenges) {
+            appData = { ...appData, ...parsed };
+            saveStorage();
+            loadAdminTeamEditor(currentAdminTeam);
+            renderResultsTable();
+            showToast('Backup restaurado com sucesso!');
+          }
+        } catch (err) {
+          showToast('Arquivo JSON inválido.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function updateAdminPin() {
+      const val = document.getElementById('newPinInput').value.trim();
+      if (!/^\d{4,8}$/.test(val)) {
+        showToast('O PIN deve conter de 4 a 8 números.');
+        return;
+      }
+      appData.pin = val;
+      saveStorage();
+      document.getElementById('newPinInput').value = '';
+      showToast('PIN de supervisor atualizado!');
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.remove('hidden');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => toast.classList.add('hidden'), 3200);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    function escapeAttr(str) {
+      return String(str || '').replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

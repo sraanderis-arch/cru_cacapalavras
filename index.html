@@ -616,7 +616,7 @@
       ]
     };
 
-    const STORAGE_KEY = 'caca_enigmas_equipes_v4';
+    const STORAGE_KEY = 'caca_enigmas_equipes_v5';
     let appData = {
       pin: '1234',
       challenges: JSON.parse(JSON.stringify(DEFAULT_CHALLENGES)),
@@ -863,8 +863,8 @@
 
       if (canPlay) {
         gridEl.classList.remove('opacity-50', 'pointer-events-none');
-        statusHint.textContent = 'Clique e arraste sobre as letras';
-        instrText.textContent = 'Leia a pergunta, descubra a palavra e arraste na grade';
+        statusHint.textContent = 'Clique e arraste em qualquer ordem';
+        instrText.textContent = 'Encontre as palavras em qualquer ordem e arraste na grade';
         btnStart.textContent = '● Em andamento';
         btnStart.disabled = true;
         btnStart.className = 'w-full py-2.5 rounded-xl bg-purple-900/60 border border-purple-400/40 text-xs font-bold text-purple-200 cursor-default';
@@ -1093,6 +1093,7 @@
       document.querySelectorAll('.grid-cell.selecting').forEach(el => el.classList.remove('selecting'));
     }
 
+    // Matches any remaining unfound word in any sequence/order
     function validateSelection() {
       if (currentSelection.length < 2) return;
       const selectedWord = currentSelection.map(pt => grid[pt.r][pt.c]).join('');

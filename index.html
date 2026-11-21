@@ -137,6 +137,11 @@
             class="w-full bg-[#0b0914] border border-purple-500/30 rounded-xl px-3.5 py-2 text-sm text-purple-200 focus:outline-none focus:border-purple-400">
           </select>
         </div>
+
+        <button id="btnStartTimer" onclick="startMatchTimer()"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-sm font-bold text-white shadow-lg shadow-purple-900/50 transition flex items-center justify-center gap-2">
+          <span>▶ COMEÇAR</span>
+        </button>
       </div>
 
       <div class="glass-panel rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
@@ -153,7 +158,7 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="useHint()" title="Revela a 1ª letra e pisca na grade"
+          <button id="btnHint" onclick="useHint()" title="Revela a 1ª letra e pisca na grade"
             class="px-3 py-2 rounded-xl bg-purple-950/80 hover:bg-purple-800/60 border border-purple-500/30 text-xs font-semibold text-purple-200 transition flex items-center gap-1.5">
             <span>💡 Dica</span>
             <span id="hintCounterBadge" class="bg-purple-500/30 px-1.5 py-0.5 rounded text-[11px]">0</span>
@@ -173,7 +178,7 @@
         <div class="flex items-center justify-between mb-3">
           <div>
             <h2 id="challengeTitleDisplay" class="text-base font-bold text-white">Desafio da Equipe</h2>
-            <p class="text-xs text-purple-300/70">Leia a pergunta, descubra a palavra e arraste na grade</p>
+            <p id="challengeInstructionText" class="text-xs text-purple-300/70">Clique em COMEÇAR para liberar a grade e iniciar o tempo</p>
           </div>
         </div>
         <div id="enigmasList" class="space-y-2.5 max-h-[430px] overflow-y-auto pr-1"></div>
@@ -186,11 +191,11 @@
           <span id="activeTeamTag" class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-600/30 border border-purple-400/40 text-purple-200">
             Equipe: Novos
           </span>
-          <span class="text-xs text-purple-300/60">Clique e arraste sobre as letras</span>
+          <span id="gridStatusHint" class="text-xs text-purple-300/60">Clique em COMEÇAR para jogar</span>
         </div>
 
-        <div id="gridWrapper" class="w-full flex items-center justify-center overflow-auto py-2">
-          <div id="wordGrid" class="grid gap-1 bg-[#0b0914] p-2.5 rounded-2xl border border-purple-500/25 shadow-inner"></div>
+        <div id="gridWrapper" class="w-full flex items-center justify-center overflow-auto py-2 relative">
+          <div id="wordGrid" class="grid gap-1 bg-[#0b0914] p-2.5 rounded-2xl border border-purple-500/25 shadow-inner opacity-50 pointer-events-none transition-opacity"></div>
         </div>
       </div>
     </div>
@@ -206,7 +211,7 @@
         </button>
         <button id="tabResultsBtn" onclick="switchAdminTab('results')"
           class="px-4 py-2 rounded-xl text-sm font-semibold text-purple-300 hover:text-white bg-purple-950/40 transition">
-          2. Resultados das Equipes
+          2. Resultados & Ranking
         </button>
         <button id="tabSettingsBtn" onclick="switchAdminTab('settings')"
           class="px-4 py-2 rounded-xl text-sm font-semibold text-purple-300 hover:text-white bg-purple-950/40 transition">
@@ -242,7 +247,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <div class="md:col-span-6">
+          <div class="md:col-span-5">
             <label class="block text-xs text-purple-300/80 mb-1">Título do Desafio</label>
             <input id="adminChallengeTitle" type="text" placeholder="Ex: Treinamento de Processos"
               class="w-full bg-[#0b0914] border border-purple-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-purple-400" />
@@ -258,7 +263,11 @@
               <option value="18">18 x 18 (Extenso)</option>
             </select>
           </div>
-          <div class="md:col-span-3 flex flex-col justify-center gap-2 pt-4">
+          <div class="md:col-span-4 flex flex-col justify-center gap-1.5 pt-2">
+            <label class="flex items-center gap-2 text-xs text-purple-200 cursor-pointer">
+              <input id="adminAllowHint" type="checkbox" checked class="accent-purple-500 rounded" />
+              Permitir Dica para o Jogador
+            </label>
             <label class="flex items-center gap-2 text-xs text-purple-200 cursor-pointer">
               <input id="adminAllowDiag" type="checkbox" checked class="accent-purple-500 rounded" />
               Permitir Diagonais
@@ -344,8 +353,8 @@
       <div class="glass-panel rounded-2xl p-6 space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 class="text-lg font-bold text-white">Resultados e Desempenho das Equipes</h2>
-            <p class="text-xs text-purple-300/70">Acompanhe conclusões, tempos e importe comprovantes enviados pelos jogadores</p>
+            <h2 class="text-lg font-bold text-white">Ranking & Desempenho das Equipes</h2>
+            <p class="text-xs text-purple-300/70">Ordenado por menor tempo e menor uso de dicas • Importe comprovantes ou exporte CSV/PDF</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <select id="resultsTeamFilter" onchange="renderResultsTable()"
@@ -354,7 +363,11 @@
             </select>
             <button onclick="openImportReceiptModal()"
               class="px-3.5 py-2 rounded-xl bg-purple-950 hover:bg-purple-900 border border-purple-400/40 text-xs font-semibold text-purple-200">
-              + Importar Código de Comprovante
+              + Importar Comprovante
+            </button>
+            <button onclick="exportSupervisorResultsCSV()"
+              class="px-3.5 py-2 rounded-xl bg-purple-800/70 hover:bg-purple-700 border border-purple-400/40 text-xs font-semibold text-white">
+              📊 Exportar CSV / Excel
             </button>
             <button onclick="exportSupervisorResultsPDF()"
               class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 text-xs font-bold text-white shadow-md">
@@ -382,6 +395,7 @@
           <table class="w-full text-left text-xs">
             <thead class="bg-[#161229] text-purple-300 uppercase">
               <tr>
+                <th class="px-4 py-3">Pos.</th>
                 <th class="px-4 py-3">Colaborador</th>
                 <th class="px-4 py-3">Equipe</th>
                 <th class="px-4 py-3">Desafio</th>
@@ -508,6 +522,7 @@
           id: 'ps_1',
           title: 'Ingresso & Matrícula',
           gridSize: 12,
+          allowHint: true,
           allowDiag: true,
           allowRev: true,
           pairs: [
@@ -525,6 +540,7 @@
           id: 'ca_1',
           title: 'Atendimento Acadêmico & Financeiro',
           gridSize: 14,
+          allowHint: true,
           allowDiag: true,
           allowRev: true,
           pairs: [
@@ -542,6 +558,7 @@
           id: 'rec_1',
           title: 'Excelência no Atendimento Receptivo',
           gridSize: 12,
+          allowHint: true,
           allowDiag: true,
           allowRev: true,
           pairs: [
@@ -559,6 +576,7 @@
           id: 'ra_1',
           title: 'Gestão de Reputação & Mídias',
           gridSize: 14,
+          allowHint: true,
           allowDiag: true,
           allowRev: true,
           pairs: [
@@ -576,6 +594,7 @@
           id: 'novos_1',
           title: 'DESCUBRA E PROCURE AS PALAVRAS!',
           gridSize: 14,
+          allowHint: true,
           allowDiag: true,
           allowRev: true,
           pairs: [
@@ -597,7 +616,7 @@
       ]
     };
 
-    const STORAGE_KEY = 'caca_enigmas_equipes_v2';
+    const STORAGE_KEY = 'caca_enigmas_equipes_v4';
     let appData = {
       pin: '1234',
       challenges: JSON.parse(JSON.stringify(DEFAULT_CHALLENGES)),
@@ -626,6 +645,7 @@
     let currentSelection = [];
     let timerSeconds = 0;
     let timerInterval = null;
+    let matchStarted = false;
     let hintsUsed = 0;
     let soundEnabled = true;
     let lastVictoryRecord = null;
@@ -686,6 +706,7 @@
               id: 'shared_' + teamId,
               title: decoded.t || 'Desafio da Equipe',
               gridSize: Number(decoded.s) || 14,
+              allowHint: decoded.h !== 0,
               allowDiag: decoded.d !== 0,
               allowRev: decoded.r !== 0,
               pairs: decoded.i.map(pair => ({
@@ -795,6 +816,7 @@
         syncPlayerSelectors();
         startNewGame();
       } else {
+        clearInterval(timerInterval);
         playerView.classList.add('hidden');
         adminView.classList.remove('hidden');
         btnA.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-purple-600 text-white shadow-md flex items-center gap-1.5';
@@ -826,6 +848,49 @@
       }
     }
 
+    function updateHintButtonVisibility(challenge) {
+      const btnHint = document.getElementById('btnHint');
+      const allowHint = challenge && challenge.allowHint !== false;
+      btnHint.classList.toggle('hidden', !allowHint);
+    }
+
+    function setMatchPlayableState(canPlay) {
+      matchStarted = canPlay;
+      const gridEl = document.getElementById('wordGrid');
+      const btnStart = document.getElementById('btnStartTimer');
+      const statusHint = document.getElementById('gridStatusHint');
+      const instrText = document.getElementById('challengeInstructionText');
+
+      if (canPlay) {
+        gridEl.classList.remove('opacity-50', 'pointer-events-none');
+        statusHint.textContent = 'Clique e arraste sobre as letras';
+        instrText.textContent = 'Leia a pergunta, descubra a palavra e arraste na grade';
+        btnStart.textContent = '● Em andamento';
+        btnStart.disabled = true;
+        btnStart.className = 'w-full py-2.5 rounded-xl bg-purple-900/60 border border-purple-400/40 text-xs font-bold text-purple-200 cursor-default';
+      } else {
+        gridEl.classList.add('opacity-50', 'pointer-events-none');
+        statusHint.textContent = 'Clique em COMEÇAR para liberar a grade';
+        instrText.textContent = 'Clique em COMEÇAR para liberar a grade e iniciar o tempo';
+        btnStart.innerHTML = '<span>▶ COMEÇAR</span>';
+        btnStart.disabled = false;
+        btnStart.className = 'w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-sm font-bold text-white shadow-lg shadow-purple-900/50 transition flex items-center justify-center gap-2';
+      }
+    }
+
+    function startMatchTimer() {
+      if (matchStarted) return;
+      clearInterval(timerInterval);
+      timerSeconds = 0;
+      document.getElementById('timerDisplay').textContent = '00:00';
+      setMatchPlayableState(true);
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        document.getElementById('timerDisplay').textContent = formatTime(timerSeconds);
+      }, 1000);
+      showToast('Cronômetro iniciado! Boa partida!');
+    }
+
     function startNewGame() {
       const challenge = getActivePlayerChallenge();
       if (!challenge) return;
@@ -833,6 +898,7 @@
       const teamObj = TEAMS.find(t => t.id === currentPlayerTeam);
       document.getElementById('activeTeamTag').textContent = `Equipe: ${teamObj ? teamObj.name : currentPlayerTeam}`;
       document.getElementById('challengeTitleDisplay').textContent = challenge.title;
+      updateHintButtonVisibility(challenge);
 
       foundIndices.clear();
       hintsUsed = 0;
@@ -847,9 +913,13 @@
 
       buildGrid(cleanedPairs, gridSize, challenge.allowDiag, challenge.allowRev);
       renderGrid();
-      renderEnigmasList(cleanedPairs);
+      renderEnigmasList();
       updateProgress();
-      resetTimer();
+
+      clearInterval(timerInterval);
+      timerSeconds = 0;
+      document.getElementById('timerDisplay').textContent = '00:00';
+      setMatchPlayableState(adminRevealMode);
     }
 
     function buildGrid(pairs, size, allowDiag, allowRev) {
@@ -962,6 +1032,7 @@
       };
 
       const onStart = (e) => {
+        if (!matchStarted) return;
         const pos = getCellFromEvent(e);
         if (!pos) return;
         isSelecting = true;
@@ -971,7 +1042,7 @@
       };
 
       const onMove = (e) => {
-        if (!isSelecting || !selectionStart) return;
+        if (!matchStarted || !isSelecting || !selectionStart) return;
         if (e.cancelable) e.preventDefault();
         const pos = getCellFromEvent(e);
         if (!pos) return;
@@ -1093,6 +1164,15 @@
     }
 
     function useHint() {
+      const challenge = getActivePlayerChallenge();
+      if (!challenge || challenge.allowHint === false) {
+        showToast('Dicas desativadas para este desafio.');
+        return;
+      }
+      if (!matchStarted) {
+        showToast('Clique em COMEÇAR antes de usar uma dica.');
+        return;
+      }
       const remaining = placedWords.filter(pw => !foundIndices.has(pw.pairIndex));
       if (remaining.length === 0) return;
 
@@ -1121,16 +1201,6 @@
 
     function updateProgress() {
       document.getElementById('progressDisplay').textContent = `${foundIndices.size} / ${placedWords.length}`;
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      timerSeconds = 0;
-      document.getElementById('timerDisplay').textContent = '00:00';
-      timerInterval = setInterval(() => {
-        timerSeconds++;
-        document.getElementById('timerDisplay').textContent = formatTime(timerSeconds);
-      }, 1000);
     }
 
     function formatTime(sec) {
@@ -1311,6 +1381,7 @@
         editingChallengeId = challenge.id;
         document.getElementById('adminChallengeTitle').value = challenge.title;
         document.getElementById('adminGridSize').value = String(challenge.gridSize || 14);
+        document.getElementById('adminAllowHint').checked = challenge.allowHint !== false;
         document.getElementById('adminAllowDiag').checked = challenge.allowDiag !== false;
         document.getElementById('adminAllowRev').checked = challenge.allowRev !== false;
         renderAdminPairs(challenge.pairs);
@@ -1318,6 +1389,7 @@
       } else {
         editingChallengeId = 'chal_' + Date.now();
         document.getElementById('adminChallengeTitle').value = 'Novo Desafio';
+        document.getElementById('adminAllowHint').checked = true;
         renderAdminPairs([{ q: '', a: '' }]);
         renderAdminAnswerKey([]);
       }
@@ -1379,6 +1451,7 @@
     function collectAdminFormChallenge() {
       const title = document.getElementById('adminChallengeTitle').value.trim() || 'Desafio da Equipe';
       const gridSizeVal = Number(document.getElementById('adminGridSize').value) || 14;
+      const allowHint = document.getElementById('adminAllowHint').checked;
       const allowDiag = document.getElementById('adminAllowDiag').checked;
       const allowRev = document.getElementById('adminAllowRev').checked;
 
@@ -1398,6 +1471,7 @@
         id: editingChallengeId || ('chal_' + Date.now()),
         title,
         gridSize: gridSizeVal,
+        allowHint,
         allowDiag,
         allowRev,
         pairs
@@ -1445,7 +1519,7 @@
         div.innerHTML = `
           <div class="min-w-0">
             <div class="text-xs font-bold text-white truncate">${escapeHtml(c.title)}</div>
-            <div class="text-[11px] text-purple-300/70">${c.pairs.length} enigmas • Grade ${c.gridSize}x${c.gridSize}</div>
+            <div class="text-[11px] text-purple-300/70">${c.pairs.length} enigmas • Dica: ${c.allowHint !== false ? 'Sim' : 'Não'}</div>
           </div>
           <div class="flex items-center gap-1.5 shrink-0">
             <button onclick="selectSavedChallenge('${teamId}', '${c.id}')"
@@ -1463,6 +1537,7 @@
       newBtn.onclick = () => {
         editingChallengeId = 'chal_' + Date.now();
         document.getElementById('adminChallengeTitle').value = 'Novo Desafio';
+        document.getElementById('adminAllowHint').checked = true;
         renderAdminPairs([{ q: '', a: '' }]);
         renderAdminAnswerKey([]);
       };
@@ -1506,6 +1581,7 @@
         t: challenge.title,
         i: challenge.pairs.map(p => [p.q, p.a]),
         s: challenge.gridSize,
+        h: challenge.allowHint ? 1 : 0,
         d: challenge.allowDiag ? 1 : 0,
         r: challenge.allowRev ? 1 : 0
       };
@@ -1552,16 +1628,33 @@
       showToast(`Arquivo caca-palavras-${teamId}.html baixado!`);
     }
 
-    function renderResultsTable() {
+    function getRankedResults() {
       const filter = document.getElementById('resultsTeamFilter').value;
       const filtered = filter === 'ALL'
-        ? appData.results
+        ? [...appData.results]
         : appData.results.filter(r => r.teamId === filter);
 
-      document.getElementById('kpiTotalCompletions').textContent = filtered.length;
-      if (filtered.length > 0) {
-        const avgSec = Math.round(filtered.reduce((acc, r) => acc + (r.timeSeconds || 0), 0) / filtered.length);
-        const avgHints = (filtered.reduce((acc, r) => acc + (r.hintsUsed || 0), 0) / filtered.length).toFixed(1);
+      return filtered.sort((a, b) => {
+        const timeDiff = (Number(a.timeSeconds) || 0) - (Number(b.timeSeconds) || 0);
+        if (timeDiff !== 0) return timeDiff;
+        return (Number(a.hintsUsed) || 0) - (Number(b.hintsUsed) || 0);
+      });
+    }
+
+    function formatRankBadge(pos) {
+      if (pos === 1) return '🥇 1º';
+      if (pos === 2) return '🥈 2º';
+      if (pos === 3) return '🥉 3º';
+      return `${pos}º`;
+    }
+
+    function renderResultsTable() {
+      const ranked = getRankedResults();
+
+      document.getElementById('kpiTotalCompletions').textContent = ranked.length;
+      if (ranked.length > 0) {
+        const avgSec = Math.round(ranked.reduce((acc, r) => acc + (r.timeSeconds || 0), 0) / ranked.length);
+        const avgHints = (ranked.reduce((acc, r) => acc + (r.hintsUsed || 0), 0) / ranked.length).toFixed(1);
         document.getElementById('kpiAvgTime').textContent = formatTime(avgSec);
         document.getElementById('kpiAvgHints').textContent = avgHints;
       } else {
@@ -1572,25 +1665,56 @@
       const tbody = document.getElementById('resultsTableBody');
       tbody.innerHTML = '';
 
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-purple-300/60">Nenhum resultado registrado para este filtro ainda.</td></tr>`;
+      if (ranked.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-6 text-center text-purple-300/60">Nenhum resultado registrado para este filtro ainda.</td></tr>`;
         return;
       }
 
-      filtered.forEach(r => {
+      ranked.forEach((r, index) => {
+        const pos = index + 1;
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-purple-950/20';
+        tr.className = pos <= 3 ? 'bg-purple-950/25 hover:bg-purple-950/40' : 'hover:bg-purple-950/20';
         tr.innerHTML = `
+          <td class="px-4 py-3 font-bold text-purple-200 whitespace-nowrap">${formatRankBadge(pos)}</td>
           <td class="px-4 py-3 font-semibold text-white">${escapeHtml(r.playerName)}</td>
           <td class="px-4 py-3 text-purple-300">${escapeHtml(r.teamName)}</td>
           <td class="px-4 py-3 text-purple-200/80">${escapeHtml(r.challengeTitle)}</td>
-          <td class="px-4 py-3 font-mono text-white">${r.timeFormatted}</td>
+          <td class="px-4 py-3 font-mono font-bold text-white">${r.timeFormatted}</td>
           <td class="px-4 py-3 font-mono text-fuchsia-300">${r.hintsUsed}</td>
           <td class="px-4 py-3 text-purple-300/70">${r.dateStr}</td>
           <td class="px-4 py-3 font-mono text-[11px] text-purple-400">${r.id}</td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    function exportSupervisorResultsCSV() {
+      const ranked = getRankedResults();
+      const filter = document.getElementById('resultsTeamFilter').value;
+      const headers = ['Posicao', 'Colaborador', 'Equipe', 'Desafio', 'Tempo', 'Segundos', 'Dicas', 'Data_Hora', 'Codigo_Validacao'];
+      const rows = ranked.map((r, idx) => [
+        `${idx + 1}o`,
+        r.playerName,
+        r.teamName,
+        r.challengeTitle,
+        r.timeFormatted,
+        Number(r.timeSeconds) || 0,
+        Number(r.hintsUsed) || 0,
+        r.dateStr,
+        r.id
+      ]);
+
+      const escapeCsvField = (val) => `"${String(val ?? '').replace(/"/g, '""')}"`;
+      const csvContent = '\uFEFF' + [headers, ...rows]
+        .map(row => row.map(escapeCsvField).join(';'))
+        .join('\r\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `ranking-equipes-${filter.toLowerCase()}.csv`;
+      a.click();
+      showToast('Planilha CSV / Excel exportada!');
     }
 
     function openImportReceiptModal() {
@@ -1634,25 +1758,22 @@
       if (!window.jspdf) return;
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      const filter = document.getElementById('resultsTeamFilter').value;
-      const filtered = filter === 'ALL'
-        ? appData.results
-        : appData.results.filter(r => r.teamId === filter);
+      const ranked = getRankedResults();
 
       doc.setFillColor(19, 17, 31);
       doc.rect(0, 0, 210, 36, 'F');
       doc.setTextColor(192, 132, 252);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text('RELATÓRIO GERENCIAL • CAÇA-PALAVRAS ENIGMAS', 14, 14);
+      doc.text('RELATÓRIO GERENCIAL & RANKING • CAÇA-PALAVRAS ENIGMAS', 14, 14);
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(16);
-      doc.text(`Desempenho das Equipes (${filtered.length} registros)`, 14, 26);
+      doc.text(`Desempenho das Equipes (${ranked.length} registros)`, 14, 26);
 
       let y = 46;
       doc.setFontSize(9);
       doc.setTextColor(80, 30, 130);
-      doc.text('Colaborador | Equipe | Desafio | Tempo | Dicas | Data | Código', 14, y);
+      doc.text('Pos. | Colaborador | Equipe | Desafio | Tempo | Dicas | Data | Código', 14, y);
       y += 6;
       doc.setDrawColor(192, 132, 252);
       doc.line(14, y, 196, y);
@@ -1660,12 +1781,12 @@
 
       doc.setTextColor(40, 40, 50);
       doc.setFont('helvetica', 'normal');
-      filtered.forEach(r => {
+      ranked.forEach((r, idx) => {
         if (y > 280) {
           doc.addPage();
           y = 20;
         }
-        const line = `${r.playerName} | ${r.teamName} | ${r.challengeTitle} | ${r.timeFormatted} | Dicas: ${r.hintsUsed} | ${r.dateStr} | ${r.id}`;
+        const line = `${idx + 1}º | ${r.playerName} | ${r.teamName} | ${r.challengeTitle} | ${r.timeFormatted} | Dicas: ${r.hintsUsed} | ${r.dateStr} | ${r.id}`;
         const wrapped = doc.splitTextToSize(line, 182);
         doc.text(wrapped, 14, y);
         y += wrapped.length * 5 + 3;
